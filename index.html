@@ -3,20 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Widget Card Carousel</title>
+  <title>Carrousel Blog 6 cartes</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:wght@400;600&display=swap');
+
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: transparent;
       margin: 0;
-      padding: 20px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .search-wrapper {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #fff;
+      text-align: center;
+      outline: none;
     }
 
     .carousel-container {
       position: relative;
-      max-width: 1000px;
+      max-width: 860px; /* 3 cartes de 250px + 2*20px gap + padding */
       margin: auto;
       overflow: hidden;
+      padding: 0 60px;
     }
 
     .carousel-wrapper {
@@ -29,53 +54,85 @@
       display: flex;
       transition: transform 0.4s ease;
       gap: 20px;
-      padding: 20px 40px; /* espace gauche/droite */
+      padding: 20px 0;
     }
 
-    .card {
+    .article-card {
       flex: 0 0 250px;
-      background: white;
+      background: #fff;
       border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
     }
 
-    .card h3 {
-      margin: 10px 0;
+    .article-card:hover {
+      transform: translateY(-5px);
     }
 
-    .card p {
-      font-size: 14px;
+    .article-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .article-content {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    .article-content h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    .article-content p {
+      font-size: 16px;
       color: #555;
+      flex-grow: 1;
+      font-family: 'DM Sans', sans-serif;
     }
 
-    .btn {
-      margin-top: 10px;
-      padding: 10px 16px;
-      background: #007bff;
-      color: white;
-      border: none;
+    .cta {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #818181;
+      color: #fff;
+      text-decoration: none;
       border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
+      text-align: center;
+      transition: background 0.2s;
     }
 
-    .btn:hover {
-      background: #0056b3;
+    .cta:hover {
+      background: #5f5f5f;
+    }
+
+    .no-result {
+      margin-top: 20px;
+      color: #999;
+      display: none;
     }
 
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 32px;
+      font-size: 28px;
       background: rgba(0,0,0,0.6);
       color: white;
       border: none;
       border-radius: 50%;
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -90,127 +147,139 @@
     .arrow-right {
       right: 10px;
     }
-
-    /* Popup */
-    .popup {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .popup-content {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      width: 400px;
-      max-height: 80vh;
-      overflow-y: auto;
-      text-align: left;
-      position: relative;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
+
+  <div class="search-wrapper">
+    <input type="text" class="search-bar" placeholder="Rechercher un article...">
+  </div>
 
   <div class="carousel-container">
     <button class="arrow arrow-left">&#8249;</button>
     <div class="carousel-wrapper">
       <div class="carousel" id="carousel">
-        
-        <div class="card">
-          <h3>Article 1</h3>
-          <p>Petit aperçu de l’article 1...</p>
-          <button class="btn" onclick="openPopup('Titre Article 1','Voici le contenu complet de l’article 1. Il contient beaucoup plus de détails...')">En savoir plus</button>
+        <!-- Carte 1 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="ChatGPT apps">
+          <div class="article-content">
+            <h3>Nouvelles applis ChatGPT</h3>
+            <p>Découvrez comment ChatGPT évolue avec de nouvelles applications et intégrations puissantes...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-
-        <div class="card">
-          <h3>Article 2</h3>
-          <p>Petit aperçu de l’article 2...</p>
-          <button class="btn" onclick="openPopup('Titre Article 2','Voici le contenu complet de l’article 2 avec davantage de texte et explications.')">En savoir plus</button>
+        <!-- Carte 2 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Firefox Update">
+          <div class="article-content">
+            <h3>Mise à jour Firefox</h3>
+            <p>Firefox sort une nouvelle version avec des améliorations de sécurité et de performance...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-
-        <div class="card">
-          <h3>Article 3</h3>
-          <p>Petit aperçu de l’article 3...</p>
-          <button class="btn" onclick="openPopup('Titre Article 3','Voici le contenu complet de l’article 3 pour lecture intégrale.')">En savoir plus</button>
+        <!-- Carte 3 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="IA et créativité">
+          <div class="article-content">
+            <h3>IA et créativité</h3>
+            <p>Un regard sur la manière dont l'intelligence artificielle influence la création artistique et les médias...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-
-        <div class="card">
-          <h3>Article 4</h3>
-          <p>Petit aperçu de l’article 4...</p>
-          <button class="btn" onclick="openPopup('Titre Article 4','Voici le contenu complet de l’article 4. Plus de détails disponibles ici.')">En savoir plus</button>
+        <!-- Carte 4 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 4">
+          <div class="article-content">
+            <h3>Article 4</h3>
+            <p>Petit aperçu du quatrième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-
-        <div class="card">
-          <h3>Article 5</h3>
-          <p>Petit aperçu de l’article 5...</p>
-          <button class="btn" onclick="openPopup('Titre Article 5','Voici le contenu complet de l’article 5. Explications supplémentaires...')">En savoir plus</button>
+        <!-- Carte 5 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 5">
+          <div class="article-content">
+            <h3>Article 5</h3>
+            <p>Petit aperçu du cinquième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-
-        <div class="card">
-          <h3>Article 6</h3>
-          <p>Petit aperçu de l’article 6...</p>
-          <button class="btn" onclick="openPopup('Titre Article 6','Voici le contenu complet de l’article 6 avec toutes les informations nécessaires.')">En savoir plus</button>
+        <!-- Carte 6 -->
+        <div class="article-card">
+          <img src="https://i.postimg.cc/4ym8YwKv/Design-sans-titre-25.jpg" alt="Article 6">
+          <div class="article-content">
+            <h3>Article 6</h3>
+            <p>Petit aperçu du sixième article pour tester le carrousel...</p>
+            <a class="cta" href="#" target="_blank">Lire l'article</a>
+          </div>
         </div>
-
       </div>
     </div>
     <button class="arrow arrow-right">&#8250;</button>
   </div>
 
-  <!-- Popup -->
-  <div class="popup" id="popup">
-    <div class="popup-content">
-      <button class="close-btn" onclick="closePopup()">✖</button>
-      <h2 id="popup-title"></h2>
-      <p id="popup-text"></p>
-    </div>
-  </div>
+  <p class="no-result">❌ Aucun article trouvé</p>
 
   <script>
+    const searchBar = document.querySelector('.search-bar');
+    const articleCards = document.querySelectorAll('.article-card');
+    const noResult = document.querySelector('.no-result');
+
+    function normalizeText(str) {
+      return str.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+    }
+
+    function doSearch() {
+      const query = normalizeText(searchBar.value.trim());
+      let found = false;
+
+      if (query.length === 0) {
+        articleCards.forEach(card => card.style.display = "flex");
+        noResult.style.display = "none";
+        return;
+      }
+
+      articleCards.forEach(card => {
+        const title = normalizeText(card.querySelector('h3').innerText);
+        const excerpt = normalizeText(card.querySelector('p').innerText);
+        if (title.includes(query) || excerpt.includes(query)) {
+          card.style.display = "flex";
+          found = true;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      noResult.style.display = found ? "none" : "block";
+    }
+
+    searchBar.addEventListener('input', doSearch);
+    searchBar.addEventListener('keypress', e => {
+      if (e.key === "Enter") doSearch();
+    });
+
+    // Carrousel
     const carousel = document.getElementById('carousel');
     const leftArrow = document.querySelector('.arrow-left');
     const rightArrow = document.querySelector('.arrow-right');
+    const cardWidth = 250 + 20; // largeur carte + gap
+    const visibleCards = 3;
     let offset = 0;
 
     rightArrow.addEventListener('click', () => {
-      if (offset > -(carousel.scrollWidth - carousel.parentElement.offsetWidth)) {
-        offset -= 270;
+      const maxOffset = -(carousel.scrollWidth - cardWidth * visibleCards);
+      if (offset > maxOffset) {
+        offset -= cardWidth;
         carousel.style.transform = `translateX(${offset}px)`;
       }
     });
 
     leftArrow.addEventListener('click', () => {
       if (offset < 0) {
-        offset += 270;
+        offset += cardWidth;
         carousel.style.transform = `translateX(${offset}px)`;
       }
     });
-
-    // Popup
-    function openPopup(title, text) {
-      document.getElementById('popup-title').innerText = title;
-      document.getElementById('popup-text').innerText = text;
-      document.getElementById('popup').style.display = 'flex';
-    }
-
-    function closePopup() {
-      document.getElementById('popup').style.display = 'none';
-    }
   </script>
 
 </body>
